@@ -95,14 +95,22 @@ copy_file ./rdsn/thirdparty/output/lib/libtcmalloc.so.4 ${pack}/bin
 copy_file ./scripts/sendmail.sh ${pack}/bin
 copy_file ./src/server/config.ini ${pack}/bin
 
-copy_file `get_boost_lib $custom_boost_lib system` ${pack}/bin
-copy_file `get_boost_lib $custom_boost_lib filesystem` ${pack}/bin
 copy_file `get_stdcpp_lib $custom_gcc` ${pack}/bin
-copy_file `get_system_lib server snappy` ${pack}/bin
-copy_file `get_system_lib server crypto` ${pack}/bin
-copy_file `get_system_lib server ssl` ${pack}/bin
-copy_file `get_system_lib server aio` ${pack}/bin
-copy_file `get_system_lib server bz2` ${pack}/bin
+
+boost_list=`LD_LIBRARY_PATH=${pack}/bin ldd ${pack}/bin/pegasus_server | awk '{print $1}' | grep -o '^libboost_[^.]*' | sed 's/^libboost_//'`
+for boost_lib in $boost_list; do
+  copy_file `get_boost_lib $custom_boost_lib $boost_lib` ${pack}/bin
+done
+
+system_list=`LD_LIBRARY_PATH=${pack}/bin ldd ${pack}/bin/pegasus_server | grep '=> /' | awk '{print $1}' | grep -o '^[^.]*' | sed 's/^lib//'`
+exclude_list="rt pthread m gcc_s c dl unwind"
+for system_lib in $system_list; do
+    if echo $exclude_list | grep -q -w "$system_lib"; then
+        echo "not copy system lib 'lib$system_lib'"
+    else
+        copy_file `get_system_lib server $system_lib` ${pack}/bin
+    fi
+done
 
 chmod +x ${pack}/bin/pegasus_* ${pack}/bin/*.sh
 chmod -x ${pack}/bin/lib*

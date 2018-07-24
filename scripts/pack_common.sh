@@ -2,7 +2,7 @@
 
 function get_boost_lib()
 {
-    libname=`ldd ./DSN_ROOT/bin/pegasus_server/pegasus_server 2>/dev/null | grep boost_$2`
+    libname=`LD_LIBRARY_PATH=DSN_ROOT/lib:rdsn/thirdparty/output/lib ldd ./DSN_ROOT/bin/pegasus_server/pegasus_server 2>/dev/null | grep boost_$2`
     libname=`echo $libname | cut -f1 -d" "`
     if [ $1 = "true" ]; then
         echo $BOOST_DIR/lib/$libname
@@ -13,7 +13,7 @@ function get_boost_lib()
 
 function get_stdcpp_lib()
 {
-    libname=`ldd ./DSN_ROOT/bin/pegasus_server/pegasus_server 2>/dev/null | grep libstdc++`
+    libname=`LD_LIBRARY_PATH=DSN_ROOT/lib:rdsn/thirdparty/output/lib ldd ./DSN_ROOT/bin/pegasus_server/pegasus_server 2>/dev/null | grep libstdc++`
     libname=`echo $libname | cut -f1 -d" "`
     if [ $1 = "true" ]; then
         gcc_path=`which gcc`
@@ -26,9 +26,9 @@ function get_stdcpp_lib()
 # USAGE: get_system_lib server snappy
 function get_system_lib()
 {
-    libname=`ldd ./DSN_ROOT/bin/pegasus_$1/pegasus_$1 2>/dev/null | grep "lib${2}\.so"`
+    libname=`LD_LIBRARY_PATH=DSN_ROOT/lib:rdsn/thirdparty/output/lib ldd ./DSN_ROOT/bin/pegasus_$1/pegasus_$1 2>/dev/null | grep "lib${2}\.so"`
     libname=`echo $libname | cut -f1 -d" "`
-    echo `ldconfig -p|grep $libname|awk '{print $NF}'`
+    echo `ldconfig -p|grep $libname|head -n 1|awk '{print $NF}'`
 }
 
 #USAGE: copy_file src [src...] dest
