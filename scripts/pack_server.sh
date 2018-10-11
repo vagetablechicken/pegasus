@@ -92,6 +92,16 @@ copy_file ./DSN_ROOT/lib/libdsn_meta_server.so ${pack}/bin
 copy_file ./DSN_ROOT/lib/libdsn_replica_server.so ${pack}/bin
 copy_file ./rdsn/thirdparty/output/lib/libPoco*.so.48 ${pack}/bin
 copy_file ./rdsn/thirdparty/output/lib/libtcmalloc.so.4 ${pack}/bin
+copy_file ./rdsn/thirdparty/output/lib/libsasl2.so.3.0.0 ${pack}/bin/libsasl2.so.3
+copy_file ./rdsn/thirdparty/output/lib/libcom_err.so.3.0 ${pack}/bin/libcom_err.so.3
+copy_file ./rdsn/thirdparty/output/lib/libkrb5support.so.0.1 ${pack}/bin/libkrb5support.so.0
+copy_file ./rdsn/thirdparty/output/lib/libkrb5.so.3.3 ${pack}/bin/libkrb5.so.3
+copy_file ./rdsn/thirdparty/output/lib/libgssapi_krb5.so.2.2 ${pack}/bin/libgssapi_krb5.so.2
+copy_file ./rdsn/thirdparty/output/lib/libk5crypto.so.3.1 ${pack}/bin/libk5crypto.so.3
+
+mkdir -p ${pack}/bin/sasl2
+copy_file ./rdsn/thirdparty/output/lib/sasl2/* ${pack}/bin/sasl2
+
 copy_file ./scripts/sendmail.sh ${pack}/bin
 copy_file ./src/server/config.ini ${pack}/bin
 

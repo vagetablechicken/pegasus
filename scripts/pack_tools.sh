@@ -101,6 +101,16 @@ mkdir -p ${pack}/DSN_ROOT/lib
 copy_file ./DSN_ROOT/lib/*.so* ${pack}/DSN_ROOT/lib/
 copy_file ./rdsn/thirdparty/output/lib/libPoco*.so.48 ${pack}/DSN_ROOT/lib/
 copy_file ./rdsn/thirdparty/output/lib/libtcmalloc.so.4 ${pack}/DSN_ROOT/lib/
+copy_file ./rdsn/thirdparty/output/lib/libsasl2.so.3.0.0 ${pack}/DSN_ROOT/lib/libsasl2.so.3
+copy_file ./rdsn/thirdparty/output/lib/libcom_err.so.3.0 ${pack}/DSN_ROOT/lib/libcom_err.so.3
+copy_file ./rdsn/thirdparty/output/lib/libkrb5support.so.0.1 ${pack}/DSN_ROOT/lib/libkrb5support.so.0
+copy_file ./rdsn/thirdparty/output/lib/libkrb5.so.3.3 ${pack}/DSN_ROOT/lib/libkrb5.so.3
+copy_file ./rdsn/thirdparty/output/lib/libgssapi_krb5.so.2.2 ${pack}/DSN_ROOT/lib/libgssapi_krb5.so.2
+copy_file ./rdsn/thirdparty/output/lib/libk5crypto.so.3.1 ${pack}/DSN_ROOT/lib/libk5crypto.so.3
+
+mkdir -p ${pack}/DSN_ROOT/lib/sasl2
+copy_file ./rdsn/thirdparty/output/lib/sasl2/* ${pack}/DSN_ROOT/lib/sasl2
+
 copy_file `get_boost_lib $custom_boost_lib system` ${pack}/DSN_ROOT/lib/
 copy_file `get_boost_lib $custom_boost_lib filesystem` ${pack}/DSN_ROOT/lib/
 copy_file `get_stdcpp_lib $custom_gcc` ${pack}/DSN_ROOT/lib/
