@@ -388,6 +388,12 @@ static command_executor commands[] = {
         ddd_diagnose,
     },
     {
+        "set_acl", // TODO HW
+        "",
+        "",
+        set_acl,
+    },
+    {
         "exit", "exit shell", "", exit_shell,
     },
     {
