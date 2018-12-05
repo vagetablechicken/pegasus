@@ -4563,7 +4563,62 @@ inline bool ddd_diagnose(command_executor *e, shell_context *sc, arguments args)
     return true;
 }
 
+inline bool load_acl_entries(shell_context *sc, arguments args, std::string &acl_entries_str)
+{
+    bool ret = false;
+    if (args.argc < 4)
+        return ret;
+
+    int app_id = -1;
+    if (!dsn::buf2int32(args.argv[1], app_id) && app_id <= 0) {
+        fprintf(stderr, "ERROR: parse \"%s\" as valid app_id failed ", args.argv[1]);
+        return ret;
+    }
+
+    if (((args.argc - 2) & 0x01) == 1) {
+        // key & value count must equal 2*n(n >= 1)
+        fprintf(stderr, "need speficy the value for key = %s\n", args.argv[args.argc - 1]);
+        return false;
+    }
+
+    int idx = 2;
+    std::string user, permission;
+    std::stringstream ss;
+    while (idx < args.argc) {
+        user = unescape_str(args.argv[idx++]);
+        permission = unescape_str(args.argv[idx++]);
+        ss << user << ":" << permission << ";";
+    }
+    ss >> acl_entries_str;
+    fprintf(stderr,
+            "LOAD: app_id \"%d\", acl_entries \"%s\"\n",
+            app_id,
+            pegasus::utils::c_escape_string(acl_entries_str, sc->escape_all).c_str());
+
+    return ret;
+}
+
 inline bool set_acl(command_executor *e, shell_context *sc, arguments args)
 {
+    std::string acl_entries_str;
+    fprintf(stderr,
+            "set_acl <app_id> <user> <permission> [user permission]\n"
+            "set_acl <app_id> <user> 0 means to delete the user\n"
+            "set_acl all ??\n");
+
+    if (load_acl_entries(sc, args, acl_entries_str)) {
+        return false;
+    }
+    // auto resp = sc->ddl_client->control_acl(app_acls);
+
+    auto resp = sc->ddl_client->set_app_envs(sc->current_app_name,
+                                             std::vector<std::string>{"acl"},
+                                             std::vector<std::string>{acl_entries_str});
+
+    if (resp == dsn::ERR_OK) {
+        std::cout << "control acl ok" << std::endl;
+    } else {
+        std::cout << "control acl got error " << resp.to_string() << std::endl;
+    }
     return true;
 }
