@@ -4563,17 +4563,16 @@ inline bool ddd_diagnose(command_executor *e, shell_context *sc, arguments args)
     return true;
 }
 
-inline bool load_acl_entries(shell_context *sc, arguments args, std::string &acl_entries_str)
+inline bool load_acl_entries(shell_context *sc,
+                             arguments args,
+                             std::string &app_name,
+                             std::string &acl_entries_str)
 {
     bool ret = false;
     if (args.argc < 4)
         return ret;
 
-    int app_id = -1;
-    if (!dsn::buf2int32(args.argv[1], app_id) && app_id <= 0) {
-        fprintf(stderr, "ERROR: parse \"%s\" as valid app_id failed ", args.argv[1]);
-        return ret;
-    }
+    app_name = unescape_str(args.argv[1]);
 
     if (((args.argc - 2) & 0x01) == 1) {
         // key & value count must equal 2*n(n >= 1)
@@ -4591,8 +4590,8 @@ inline bool load_acl_entries(shell_context *sc, arguments args, std::string &acl
     }
     ss >> acl_entries_str;
     fprintf(stderr,
-            "LOAD: app_id \"%d\", acl_entries \"%s\"\n",
-            app_id,
+            "LOAD: app_name \"%s\", acl_entries \"%s\"\n",
+            pegasus::utils::c_escape_string(app_name, sc->escape_all).c_str(),
             pegasus::utils::c_escape_string(acl_entries_str, sc->escape_all).c_str());
 
     return ret;
@@ -4602,7 +4601,7 @@ inline bool set_acl(command_executor *e, shell_context *sc, arguments args)
 {
     std::string app_name, acl_entries_str;
 
-    if (load_acl_entries(sc, args, acl_entries_str)) {
+    if (load_acl_entries(sc, args, app_name, acl_entries_str)) {
         return false;
     }
     // auto resp = sc->ddl_client->control_acl(app_acls);
