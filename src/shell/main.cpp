@@ -389,8 +389,10 @@ static command_executor commands[] = {
     },
     {
         "set_acl", // TODO HW
-        "",
-        "",
+        "set app acls",
+        "set_acl <app_id> <user> <permission> [user permission]"
+        "set_acl <app_id> <user> 0 means to delete the user"
+        "set_acl all ??",
         set_acl,
     },
     {
