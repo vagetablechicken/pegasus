@@ -4604,19 +4604,18 @@ inline bool set_acl(command_executor *e, shell_context *sc, arguments args)
     if (load_acl_entries(sc, args, app_name, acl_entries_str)) {
         return false;
     }
-    // auto resp = sc->ddl_client->control_acl(app_acls);
+
     dsn::error_code resp;
     if (app_name == "all") {
-        fprintf(stderr, "unfinished");
+        fprintf(stderr, "setting acl for all apps is unfinished");
     } else {
-        resp = sc->ddl_client->set_app_envs(
-            app_name, std::vector<std::string>{"acl"}, std::vector<std::string>{acl_entries_str});
+        resp = sc->ddl_client->control_acl(app_name, acl_entries_str);
     }
 
     if (resp == dsn::ERR_OK) {
-        std::cout << "control acl ok" << std::endl;
+        std::cout << "set acl ok" << std::endl;
     } else {
-        std::cout << "control acl got error " << resp.to_string() << std::endl;
+        std::cout << "set acl got error " << resp.to_string() << std::endl;
     }
     return true;
 }
