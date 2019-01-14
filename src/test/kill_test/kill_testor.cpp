@@ -6,7 +6,6 @@
 
 #include <dsn/c/api_utilities.h>
 #include <dsn/service_api_cpp.h>
-#include <dsn/dist/replication/replication_ddl_client.h>
 #include <pegasus/client.h>
 
 #include "kill_testor.h"
