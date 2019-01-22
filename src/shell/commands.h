@@ -2261,7 +2261,7 @@ inline bool copy_data(command_executor *e, shell_context *sc, arguments args)
         return true;
     }
 
-    int ret = target_client->exist("a", "b"); // TODO HW test write？
+    int ret = target_client->exist("a", "b");
     if (ret != pegasus::PERR_OK && ret != pegasus::PERR_NOT_FOUND) {
         fprintf(
             stderr, "ERROR: test target app failed: %s\n", target_client->get_error_string(ret));

@@ -1274,7 +1274,7 @@ const char *pegasus_client_impl::get_error_string(int error_code) const
     _server_error_to_client[::dsn::ERR_APP_EXIST] = PERR_APP_EXIST;
     _server_error_to_client[::dsn::ERR_BUSY] = PERR_APP_BUSY;
 
-    // TODO HW ERR_AUTH_FAILED
+    _server_error_to_client[::dsn::ERR_UNAUTHENTICATED]=PERR_UNAUTHENTICATED;
     _server_error_to_client[::dsn::ERR_ACL_DENY] = PERR_ACL_DENY;
     
     // rocksdb error;
