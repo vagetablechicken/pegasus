@@ -110,13 +110,13 @@ copy_file `get_boost_lib $custom_boost_lib filesystem` ${pack}/bin
 copy_file `get_stdcpp_lib $custom_gcc` ${pack}/bin
 copy_file `get_system_lib server snappy` ${pack}/bin
 copy_file `get_system_lib server crypto` ${pack}/bin
-copy_file `get_system_lib server ssl` ${pack}/bin
 copy_file `get_system_lib server aio` ${pack}/bin
 copy_file `get_system_lib server zstd` ${pack}/bin
 copy_file `get_system_lib server lz4` ${pack}/bin
 
 chmod +x ${pack}/bin/pegasus_* ${pack}/bin/*.sh
 chmod -x ${pack}/bin/lib*
+chmod -x ${pack}/bin/sasl2/*
 
 echo "Pegasus Server $version ($commit_id) $platform $build_type" >${pack}/VERSION
 

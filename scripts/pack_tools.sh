@@ -120,7 +120,8 @@ copy_file `get_system_lib shell ssl` ${pack}/DSN_ROOT/lib/
 copy_file `get_system_lib shell aio` ${pack}/DSN_ROOT/lib/
 copy_file `get_system_lib shell zstd` ${pack}/DSN_ROOT/lib/
 copy_file `get_system_lib shell lz4` ${pack}/DSN_ROOT/lib/
-chmod -x ${pack}/DSN_ROOT/lib/*
+chmod -x ${pack}/DSN_ROOT/lib/lib*
+chmod -x ${pack}/DSN_ROOT/lib/sasl2/*
 
 mkdir -p ${pack}/scripts
 copy_file ./scripts/* ${pack}/scripts/
