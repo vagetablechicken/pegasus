@@ -3969,7 +3969,7 @@ inline bool ls_backup_policy(command_executor *e, shell_context *sc, arguments a
 {
     ::dsn::error_code err = sc->ddl_client->ls_backup_policy();
     if (err != ::dsn::ERR_OK) {
-        std::cout << "ls backup policy failed" << std::endl;
+        std::cout << "ls backup policy failed, err = " << err.to_string() << std::endl;
     } else {
         std::cout << std::endl << "ls backup policy succeed" << std::endl;
     }

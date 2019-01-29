@@ -391,8 +391,8 @@ static command_executor commands[] = {
     {
         "set_acl",
         "set an acl entry, only support RW now",
-        "set_acl <app_name> <user> <permission> [user permission]"
-        "set_acl <app_name> <user> 0 means to delete the user",
+        "<app_name> <user> <permission> [user permission] "
+        "set permission 0 means to delete the user",
         set_acl,
     },
     {

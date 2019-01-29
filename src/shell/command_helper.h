@@ -204,11 +204,11 @@ inline void scan_data_next(scan_data_context *context)
                         sort_key,
                         [context](int err, pegasus::pegasus_client::internal_info &&info) {
                             if (err != pegasus::PERR_OK) {
+                                fprintf(stderr,
+                                        "ERROR: split[%d] async del failed: %s\n",
+                                        context->split_id,
+                                        context->client->get_error_string(err));
                                 if (!context->split_completed.exchange(true)) {
-                                    fprintf(stderr,
-                                            "ERROR: split[%d] async del failed: %s\n",
-                                            context->split_id,
-                                            context->client->get_error_string(err));
                                     context->error_occurred->store(true);
                                 }
                             } else {
